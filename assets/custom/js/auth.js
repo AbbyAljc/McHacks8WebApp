@@ -50,27 +50,6 @@ function init() {
         }
     });
 }
-
-
-function LoginPage() {
-    var ui = new firebaseui.auth.AuthUI(firebase.auth());
-    ui.start('#firebaseui-auth-container', {
-        callbacks: {
-            signInSuccessWithAuthResult: function(authResult, redirectUrl) {
-                return true;
-            },
-            uiShown: function() {
-                document.getElementById('loader').style.display = 'none';
-            }
-        },
-        signInFlow: 'popup',
-        // signInSuccessUrl: 'home.html',
-        signInOptions: [
-            firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-        ],
-    });
-}
-
 $("#emailSignIn").submit(function(event) {
     event.preventDefault();
     var path = window.location.pathname.split('/');
