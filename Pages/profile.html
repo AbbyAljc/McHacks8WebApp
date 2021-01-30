@@ -21,7 +21,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="Start your development with a Dashboard for Bootstrap 4.">
   <meta name="author" content="Creative Tim">
-  <title>Argon Dashboard - Free Dashboard for Bootstrap 4</title>
+  <title>Pocket Prescription - User Profile</title>
   <!-- Favicon -->
   <link rel="icon" href="../assets/img/brand/favicon.png" type="image/png">
   <!-- Fonts -->
@@ -127,7 +127,7 @@
                     <img alt="Image placeholder" src="../assets/img/theme/team-4.jpg">
                   </span>
                   <div class="media-body  ml-2  d-none d-lg-block">
-                    <span class="mb-0 text-sm  font-weight-bold">John Snow</span>
+                      <span class="mb-0 text-sm  font-weight-bold">Dr. John Snow</span>
                   </div>
                 </div>
               </a>
@@ -168,8 +168,7 @@
         <div class="row">
           <div class="col-lg-7 col-md-10">
             <h1 class="display-2 text-white">John Doe</h1>
-            <p class="text-white mt-0 mb-5">This is your medical prescription profile page. You can see and edit your information here.</p>
-            <a href="#!" class="btn btn-neutral">Edit profile</a>
+            <p class="text-white mt-0 mb-5">This is the patient's medical prescription profile page. You can see information here and add notes.</p>
           </div>
         </div>
       </div>
@@ -182,10 +181,9 @@
             <div class="card-header">
               <div class="row align-items-center">
                 <div class="col-8">
-                  <h3 class="mb-0">Edit profile </h3>
+                  <h3 class="mb-0">User profile </h3>
                 </div>
                 <div class="col-4 text-right">
-                  <a href="#!" class="btn btn-sm btn-primary">Settings</a>
                 </div>
               </div>
             </div>
@@ -211,13 +209,13 @@
                     <div class="col-lg-6">
                       <div class="form-group">
                         <label class="form-control-label" for="input-username">Phone Number</label>
-                        <input type="text" id="input-phone" class="form-control" placeholder="Number" value="514-123-4567">
+                        <input type="text" id="input-phone" class="form-control" placeholder="Number" value="514-123-4567" readonly>
                       </div>
                     </div>
                     <div class="col-lg-6">
                       <div class="form-group">
                         <label class="form-control-label" for="input-email">Email address</label>
-                        <input type="email" id="input-email" class="form-control" placeholder="jesse@example.com">
+                        <input type="email" id="input-email" class="form-control" placeholder="jesse@example.com" readonly>
                       </div>
                     </div>
                   </div>
@@ -246,7 +244,7 @@
                     <div class="col-md-12">
                       <div class="form-group">
                         <label class="form-control-label" for="input-address">Address</label>
-                        <input id="input-address" class="form-control" placeholder="Home Address" value="420 St Catherine Street West" type="text">
+                        <input id="input-address" class="form-control" placeholder="Home Address" value="420 St Catherine Street West" type="text" readonly>
                       </div>
                     </div>
                   </div>
@@ -254,37 +252,67 @@
                     <div class="col-lg-4">
                       <div class="form-group">
                         <label class="form-control-label" for="input-city">City</label>
-                        <input type="text" id="input-city" class="form-control" placeholder="City" value="Montreal">
+                        <input type="text" id="input-city" class="form-control" placeholder="City" value="Montreal" readonly>
                       </div>
                     </div>
                     <div class="col-lg-4">
                       <div class="form-group">
                         <label class="form-control-label" for="input-country">Country</label>
-                        <input type="text" id="input-country" class="form-control" placeholder="Country" value="Canada">
+                        <input type="text" id="input-country" class="form-control" placeholder="Country" value="Canada" readonly>
                       </div>
                     </div>
                     <div class="col-lg-4">
                       <div class="form-group">
                         <label class="form-control-label" for="input-country">Postal code</label>
-                        <input type="text" id="input-postal-code" class="form-control" placeholder="Postal code">
+                        <input type="text" id="input-postal-code" class="form-control" placeholder="Postal code" readonly>
                       </div>
                     </div>
                   </div>
                 </div>
                 <hr class="my-4" />
                 <!-- Description -->
-                <h6 class="heading-small text-muted mb-4">About me</h6>
+                <h6 class="heading-small text-muted mb-4">Other</h6>
                 <div class="pl-lg-4">
                   <div class="form-group">
-                    <label class="form-control-label">About Me</label>
-                    <textarea rows="4" class="form-control" placeholder="A few words about you ...">Write any personal notes here.</textarea>
+                    <label class="form-control-label">Additional notes</label>
+                    <textarea rows="4" class="form-control" placeholder="A few words about your patient ...">Write any medical notes here. These notes are for yourself</textarea>
                   </div>
                 </div>
+                <p align = "right">
+                    <button onclick = "myFunction()" class="btn btn-sm btn-primary"> Save </button>
+                </p>
               </form>
             </div>
           </div>
         </div>
       </div>
+    </div>
+    <div>
+       <p>  <br/>  <br/> </p>
+    </div>
+    <!-- Prescription history -->
+    <div class="container-fluid mt--6">
+        <div class="row">
+            <div class="col-xl-8 order-xl-1">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="row align-items-center">
+                            <div class="col-8">
+                                <h3 class="mb-0">Prescription History </h3>
+                                <hr class="my-4" />
+                                <h6 class="heading-small text-muted mb-4">Amoxicilen</h6>
+                                <p> 500ug times 23, January 22nd 2021, Dr  Madikal Doktur, License No. 42069 </p>
+                                <hr class="my-4" />
+                                <h6 class="heading-small text-muted mb-4">Hydroquinine</h6>
+                                <p> 500mg times 1, January 1st 2021, Dr  Donald Duck, License No. 666 </p>
+                                <p>  <br/>  <br/> </p>
+                                <p>  <br/>  <br/> </p>
+                                <p>  <br/>  <br/> </p>
+                            </div>
+                        </div>
+            </div>
+          </div>
+        </div>
     </div>
   </div>
   <!-- Argon Scripts -->
