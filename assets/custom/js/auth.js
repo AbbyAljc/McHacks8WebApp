@@ -50,6 +50,7 @@ function init() {
         }
     });
 }
+
 $("#emailSignIn").submit(function(event) {
     event.preventDefault();
     var path = window.location.pathname.split('/');
@@ -64,6 +65,7 @@ $("#emailSignIn").submit(function(event) {
             $("#errorMsg").text(error.message)
         });
 });
+
 
 function logout() {
     firebase.auth().signOut().then(() => {
