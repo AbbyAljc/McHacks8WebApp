@@ -17,28 +17,31 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="Start your development with a Dashboard for Bootstrap 4.">
   <meta name="author" content="Creative Tim">
-  <title>Pocket Perscription</title>
-  <!-- Favicon -->
+  <title>Pocket Prescription</title>
   <link rel="icon" href="../assets/img/brand/favicon.png" type="image/png">
-  <!-- Fonts -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700">
-  <!-- Icons -->
   <link rel="stylesheet" href="../assets/vendor/nucleo/css/nucleo.css" type="text/css">
   <link rel="stylesheet" href="../assets/vendor/@fortawesome/fontawesome-free/css/all.min.css" type="text/css">
-  <!-- Argon CSS -->
   <link rel="stylesheet" href="../assets/css/argon.css?v=1.2.0" type="text/css">
+
+  <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.6.1/firebase-ui-auth.css" />
+  <script src="https://www.gstatic.com/firebasejs/8.2.5/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.2.5/firebase-analytics.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.2.5/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.2.5/firebase-firestore.js"></script>
+
+  <script src="https://www.gstatic.com/firebasejs/ui/4.6.1/firebase-ui-auth.js"></script>
+
 </head>
 
 <body class="bg-default">
-  <!-- Main content -->
   <div class="main-content">
-    <!-- Header -->
     <div class="header bg-gradient-primary py-7 py-lg-8 pt-lg-9">
       <div class="container">
         <div class="header-body text-center mb-7">
           <div class="row justify-content-center">
             <div class="col-xl-5 col-lg-6 col-md-8 px-5">
-              <h1 class="text-white">Pocket Perscription</h1>
+              <h1 class="text-white">Pocket Prescription</h1>
               <p class="text-lead text-white">We will come up with a slogan later.</p>
             </div>
           </div>
@@ -50,7 +53,6 @@
         </svg>
       </div>
     </div>
-    <!-- Page content -->
     <div class="container mt--8 pb-5">
       <div class="row justify-content-center">
         <div class="col-lg-5 col-md-7">
@@ -58,14 +60,17 @@
             <div class="card-body px-lg-5 py-lg-5">
               <div class="text-center text-muted mb-4">
                 <small>Sign in with your medicare credentials</small>
+                <div id="firebaseui-auth-container"></div>
+                <div id="loader">Loading...</div>
               </div>
-              <form role="form">
+              <form role="form" id="emailSignIn">
+                <div class="text-danger text-center"><small id="errorMsg"></small></div>
                 <div class="form-group mb-3">
                   <div class="input-group input-group-merge input-group-alternative">
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="ni ni-email-83"></i></span>
                     </div>
-                    <input class="form-control" placeholder="Email" type="email">
+                    <input class="form-control" placeholder="Email" type="email" id="emailLogin">
                   </div>
                 </div>
                 <div class="form-group">
@@ -73,7 +78,7 @@
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
                     </div>
-                    <input class="form-control" placeholder="Password" type="password">
+                    <input class="form-control" placeholder="Password" type="password" id="passwordLogin">
                   </div>
                 </div>
                 <div class="custom-control custom-control-alternative custom-checkbox">
@@ -83,7 +88,7 @@
                   </label>
                 </div>
                 <div class="text-center">
-                  <button type="button" class="btn btn-primary my-4">Sign in</button>
+                  <button type="submit" class="btn btn-primary my-4">Sign in</button>
                 </div>
               </form>
             </div>
@@ -100,7 +105,6 @@
       </div>
     </div>
   </div>
-  <!-- Footer -->
   <footer class="py-5" id="footer-main">
     <div class="container">
       <div class="row align-items-center justify-content-xl-between">
@@ -109,15 +113,16 @@
       </div>
     </div>
   </footer>
-  <!-- Argon Scripts -->
-  <!-- Core -->
   <script src="../assets/vendor/jquery/dist/jquery.min.js"></script>
+  <script src="../assets/custom/js/auth.js"></script>
   <script src="../assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
   <script src="../assets/vendor/js-cookie/js.cookie.js"></script>
   <script src="../assets/vendor/jquery.scrollbar/jquery.scrollbar.min.js"></script>
   <script src="../assets/vendor/jquery-scroll-lock/dist/jquery-scrollLock.min.js"></script>
-  <!-- Argon JS -->
   <script src="../assets/js/argon.js?v=1.2.0"></script>
+  <script>
+    LoginPage();
+  </script>
 </body>
 
 </html>
