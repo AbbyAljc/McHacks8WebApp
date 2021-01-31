@@ -27,6 +27,11 @@
     <link rel="stylesheet" href="../assets/vendor/nucleo/css/nucleo.css" type="text/css">
     <link rel="stylesheet" href="../assets/vendor/@fortawesome/fontawesome-free/css/all.min.css" type="text/css">
     <link rel="stylesheet" href="../assets/css/argon.css?v=1.2.0" type="text/css">
+
+    <script src="https://www.gstatic.com/firebasejs/8.2.5/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.5/firebase-analytics.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.5/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.5/firebase-firestore.js"></script>
 </head>
 
 <body class="bg-default">
@@ -94,28 +99,14 @@
                         </button>
                     </form>
                     <ul class="navbar-nav align-items-center  ml-md-auto ">
-                        <li class="nav-item d-xl-none">
-                            <div class="pr-3 sidenav-toggler sidenav-toggler-dark" data-action="sidenav-pin" data-target="#sidenav-main">
-                                <div class="sidenav-toggler-inner">
-                                    <i class="sidenav-toggler-line"></i>
-                                    <i class="sidenav-toggler-line"></i>
-                                    <i class="sidenav-toggler-line"></i>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="nav-item d-sm-none">
-                            <a class="nav-link" href="#" data-action="search-show" data-target="#navbar-search-main">
-                                <i class="ni ni-zoom-split-in"></i>
-                            </a>
-                        </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link pr-0" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <div class="media align-items-center">
                                     <span class="avatar avatar-sm rounded-circle">
-                                        <img alt="Image placeholder" src="../assets/img/theme/team-4.jpg">
+                                        <img alt="Image placeholder" id="userIcon" hidden>
                                     </span>
                                     <div class="media-body  ml-2  d-none d-lg-block">
-                                        <span class="mb-0 text-sm  font-weight-bold">Dr. John Snow</span>
+                                        <span class="mb-0 text-sm  font-weight-bold" id="userName"></span>
                                     </div>
                                 </div>
                             </a>
@@ -123,33 +114,21 @@
                                 <div class="dropdown-header noti-title">
                                     <h6 class="text-overflow m-0">Welcome!</h6>
                                 </div>
-                                <a href="#!" class="dropdown-item">
-                                    <i class="ni ni-single-02"></i>
-                                    <span>My profile</span>
-                                </a>
-                                <a href="#!" class="dropdown-item">
-                                    <i class="ni ni-settings-gear-65"></i>
-                                    <span>Settings</span>
-                                </a>
-                                <a href="#!" class="dropdown-item">
-                                    <i class="ni ni-support-16"></i>
-                                    <span>Support</span>
-                                </a>
-                                <div class="dropdown-divider"></div>
-                                <a href="#!" class="dropdown-item">
+                                <button onclick="logout()" class="dropdown-item">
                                     <i class="ni ni-user-run"></i>
                                     <span>Logout</span>
-                                </a>
+                                </button>
                             </div>
                         </li>
                     </ul>
                 </div>
             </div>
         </nav>
-        <div class="header" style="min-height: 200px; background-size: cover; background-position: center top;">
-            <span class="mask bg-default"></span>
+        <div class="header text-center" style="min-height: 200px; background-size: cover; background-position: center top;">
+            <!-- <span class="mask bg-default"></span> -->
+            <img width="250px"style="z-index: 10;position: sticky;" class="rounded-circle shadow" src="https://firebasestorage.googleapis.com/v0/b/mchacks2021-39752.appspot.com/o/users%2Fkevin.jpg?alt=media&token=d6c37d10-cf3a-48bb-8f6b-c4d2fc625bc8">
         </div>
-        <div class="container-fluid mt--6">
+        <div class="container-fluid mt--3">
             <div class="row">
                 <div class="col-12">
                     <div class="card">
@@ -159,13 +138,13 @@
                                     <div class="nav-wrapper">
                                         <ul class="nav nav-pills nav-fill flex-column flex-md-row" id="tabs-icons-text" role="tablist">
                                             <li class="nav-item">
-                                                <a class="nav-link mb-sm-3 mb-md-0 active" id="tabs-icons-text-1-tab" data-toggle="tab" href="#tabs-icons-text-1" role="tab" aria-controls="tabs-icons-text-1" aria-selected="true"><i class="ni ni-cloud-upload-96 mr-2"></i>Profile</a>
+                                                <a class="nav-link mb-sm-3 mb-md-0 active" id="tabs-icons-text-1-tab" data-toggle="tab" href="#tabs-icons-text-1" role="tab" aria-controls="tabs-icons-text-1" aria-selected="true"><i class="fas fa-id-card"></i> Profile</a>
                                             </li>
                                             <li class="nav-item">
-                                                <a class="nav-link mb-sm-3 mb-md-0" id="tabs-icons-text-2-tab" data-toggle="tab" href="#tabs-icons-text-2" role="tab" aria-controls="tabs-icons-text-2" aria-selected="false"><i class="ni ni-bell-55 mr-2"></i>Prescriptions</a>
+                                                <a class="nav-link mb-sm-3 mb-md-0" id="tabs-icons-text-2-tab" data-toggle="tab" href="#tabs-icons-text-2" role="tab" aria-controls="tabs-icons-text-2" aria-selected="false"><i class="fas fa-pills"></i> Prescriptions</a>
                                             </li>
                                             <li class="nav-item">
-                                                <a class="nav-link mb-sm-3 mb-md-0" id="tabs-icons-text-3-tab" data-toggle="tab" href="#tabs-icons-text-3" role="tab" aria-controls="tabs-icons-text-3" aria-selected="false"><i class="ni ni-calendar-grid-58 mr-2"></i>Add Prescription</a>
+                                                <a class="nav-link mb-sm-3 mb-md-0" id="tabs-icons-text-3-tab" data-toggle="tab" href="#tabs-icons-text-3" role="tab" aria-controls="tabs-icons-text-3" aria-selected="false"><i class="fas fa-folder-plus"></i> Add Prescription</a>
                                             </li>
                                         </ul>
                                     </div>
@@ -176,7 +155,7 @@
                             <div class="card shadow">
                                 <div class="card-body">
                                     <div class="tab-content" id="myTabContent">
-                                        <div class="tab-pane fade show active" id="tabs-icons-text-1" role="tabpanel" aria-labelledby="tabs-icons-text-1-tab">
+                                        <div class="tab-pane fade show active" id="tabs-icons-text-1" role="tabpanel">
                                             <form>
                                                 <h6 class="heading-small text-muted mb-4">User information</h6>
                                                 <div class="pl-lg-4">
@@ -184,13 +163,13 @@
                                                         <div class="col-lg-6">
                                                             <div class="form-group">
                                                                 <label class="form-control-label" for="input-first-name">First name</label>
-                                                                <input type="text" id="input-first-name" class="form-control" placeholder="First name" value="Lucky" readonly>
+                                                                <input type="text" id="input-first-name" class="form-control" placeholder="First name" readonly>
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-6">
                                                             <div class="form-group">
                                                                 <label class="form-control-label" for="input-last-name">Last name</label>
-                                                                <input type="text" id="input-last-name" class="form-control" placeholder="Last name" value="Jesse" readonly>
+                                                                <input type="text" id="input-last-name" class="form-control" placeholder="Last name" readonly>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -198,7 +177,7 @@
                                                         <div class="col-lg-6">
                                                             <div class="form-group">
                                                                 <label class="form-control-label" for="input-username">Phone Number</label>
-                                                                <input type="text" id="input-phone" class="form-control" placeholder="Number" value="514-123-4567" readonly>
+                                                                <input type="text" id="input-phone" class="form-control" placeholder="Number" readonly>
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-6">
@@ -212,15 +191,21 @@
                                                         <div class="col-md-12">
                                                             <div class="form-group">
                                                                 <label class="form-control-label" for="input-medicare">Medicare Card Number</label>
-                                                                <input id="input-medicare" class="form-control" placeholder="Medical Number" value="HACK66642069" type="text" readonly>
+                                                                <input id="input-medicare" class="form-control" placeholder="Medical Number" type="text" readonly>
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div class="row">
-                                                        <div class="col-md-12">
+                                                        <div class="col-md-6">
                                                             <div class="form-group">
-                                                                <label class="form-control-label" for="input-dateofbirth">Date of Birth</label>
-                                                                <input id="input-dateofbirth" class="form-control" placeholder="Date of Birth" value="January 1st 2001" type="text" readonly>
+                                                                <label class="form-control-label" for="input-dateofbirth">Date of Birth <small>MM-DD-YYYY</small></label>
+                                                                <input id="input-dateofbirth" class="form-control" placeholder="Date of Birth" type="text" readonly>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label class="form-control-label" for="input-sex">Sex</label>
+                                                                <input id="input-sex" class="form-control" placeholder="Sex" type="text" readonly>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -233,7 +218,7 @@
                                                         <div class="col-md-12">
                                                             <div class="form-group">
                                                                 <label class="form-control-label" for="input-address">Address</label>
-                                                                <input id="input-address" class="form-control" placeholder="Home Address" value="420 St Catherine Street West" type="text" readonly>
+                                                                <input id="input-address" class="form-control" placeholder="Home Address" type="text" readonly>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -241,30 +226,29 @@
                                                         <div class="col-lg-4">
                                                             <div class="form-group">
                                                                 <label class="form-control-label" for="input-city">City</label>
-                                                                <input type="text" id="input-city" class="form-control" placeholder="City" value="Montreal" readonly>
+                                                                <input type="text" id="input-city" class="form-control" placeholder="City" readonly>
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-4">
                                                             <div class="form-group">
                                                                 <label class="form-control-label" for="input-country">Country</label>
-                                                                <input type="text" id="input-country" class="form-control" placeholder="Country" value="Canada" readonly>
+                                                                <input type="text" id="input-country" class="form-control" placeholder="Country" readonly>
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-4">
                                                             <div class="form-group">
                                                                 <label class="form-control-label" for="input-country">Postal code</label>
-                                                                <input type="text" id="input-postal-code" class="form-control" placeholder="Postal code" readonly>
+                                                                <input type="text" id="input-postal-code" class="form-control" readonly>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <hr class="my-4" />
-                                                <!-- Description -->
                                                 <h6 class="heading-small text-muted mb-4">Other</h6>
                                                 <div class="pl-lg-4">
                                                     <div class="form-group">
                                                         <label class="form-control-label">Additional notes</label>
-                                                        <textarea rows="4" class="form-control" placeholder="A few words about your patient ...">Write any medical notes here. These notes are for yourself</textarea>
+                                                        <textarea rows="4" class="form-control" placeholder="A few words about your patient..."></textarea>
                                                     </div>
                                                 </div>
                                                 <p align="right">
@@ -272,53 +256,53 @@
                                                 </p>
                                             </form>
                                         </div>
-                                        <div class="tab-pane fade" id="tabs-icons-text-2" role="tabpanel" aria-labelledby="tabs-icons-text-2-tab">
-                                            <div class="col-12">
-                                                <h3 class="mb-0">Prescription History </h3>
-                                                <hr class="my-4" />
-                                                <h6 class="heading-small text-muted mb-4">Amoxicilen</h6>
-                                                <p> 500ug times 23, January 22nd 2021, Dr Madikal Doktur, License No. 42069 </p>
-                                                <hr class="my-4" />
-                                                <h6 class="heading-small text-muted mb-4">Hydroquinine</h6>
-                                                <p> 500mg times 1, January 1st 2021, Dr Donald Duck, License No. 666 </p>
-                                                <p> <br /> <br /> </p>
-                                                <p> <br /> <br /> </p>
-                                                <p> <br /> <br /> </p>
+                                        <div class="tab-pane fade" id="tabs-icons-text-2" role="tabpanel">
+                                            <div class="row" id="prescription_list">
                                             </div>
+
                                         </div>
-                                        <div class="tab-pane fade" id="tabs-icons-text-3" role="tabpanel" aria-labelledby="tabs-icons-text-3-tab">
+                                        <div class="tab-pane fade" id="tabs-icons-text-3" role="tabpanel">
                                             <form role="form" id="submitPrescript">
                                                 <h6 class="heading-small text-muted mb-4">Prescription</h6>
                                                 <div class="row">
                                                     <div class="col-lg-6">
                                                         <div class="form-group">
                                                             <label class="form-control-label" for="input-first-name">Medication</label>
-                                                            <input type="text" id="medication" class="form-control" placeholder="Medication">
+                                                            <input type="text" id="medication" class="form-control" placeholder="Medication" required>
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-6">
                                                         <div class="form-group">
-                                                            <label class="form-control-label" for="input-last-name">Refills</label>
-                                                            <input type="text" id="refills" class="form-control" placeholder="Refills">
+                                                            <label class="form-control-label" for="input-last-name">Expiration</label>
+                                                            <input class="form-control" type="datetime-local" id="expiration" required>
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-12">
                                                         <div class="form-group">
-                                                            <label class="form-control-label">Prescription Information</label>
-                                                            <textarea rows="12" id="prescript" class="form-control" placeholder="Prescription Information"></textarea>
+                                                            <label class="form-control-label">Prescription Details</label>
+                                                            <textarea rows="12" id="prescription_details" class="form-control" placeholder="Prescription Information" required></textarea>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <h6 class="heading-small text-muted mb-4">Prescription Directions<button type="button" class="btn btn-sm btn-primary float-right" id="addDirection"><i class="fas fa-plus-circle"></i> Direction</button>
+                                                </h6>
+                                                <div class="row">
+                                                    <div class="container1 w-100">
+                                                        <div class="col-12 ml-2">
+                                                            <div class="form-group">
+                                                                <div class="input-group">
+                                                                    <div class="input-group-prepend">
+                                                                        <span class="input-group-text" id="basic-addon1">1</span>
+                                                                    </div>
+                                                                    <input type="text" name="mytext[]" class="form-control" placeholder="Direction" required>
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                     </div>
 
                                                     <hr class="my-4" />
-                                                    <div class="col-lg-12">
-                                                        <div class="form-group">
-                                                            <label class="form-control-label" for="input-first-name">Signature</label>
-                                                            <input type="text" id="input-first-name" class="form-control" placeholder="Signature">
-                                                        </div>
-                                                    </div>
                                                 </div>
-                                                <button type="submit" class="btn btn-primary my-4">Submit</button>
-
+                                                <button type="submit" class="btn btn-primary my-4 btn-block">Submit</button>
                                             </form>
                                         </div>
                                     </div>
@@ -330,11 +314,175 @@
             </div>
         </div>
         <script src="../assets/vendor/jquery/dist/jquery.min.js"></script>
+        <script src="../assets/custom/js/auth.js"></script>
         <script src="../assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
         <script src="../assets/vendor/js-cookie/js.cookie.js"></script>
         <script src="../assets/vendor/jquery.scrollbar/jquery.scrollbar.min.js"></script>
         <script src="../assets/vendor/jquery-scroll-lock/dist/jquery-scrollLock.min.js"></script>
         <script src="../assets/js/argon.js?v=1.2.0"></script>
 </body>
+<script>
+    updateStatus();
+    getData();
+
+    function updateStatus() {
+        var urlParams = new URLSearchParams(window.location.search);
+        var id = urlParams.get('id');
+        firebase.auth().onAuthStateChanged(function(user) {
+            if (user) {
+                var db = firebase.firestore();
+                var users = db.collection("sessions").where("doctor_id", "==", user.uid).where("status", "==", "waiting").where("uid", "==", id).limit(1)
+                    .onSnapshot(function(querySnapshot) {
+                        if (!querySnapshot.empty) {
+                            const thing = querySnapshot.docs[0];
+                            const newVal = "viewing";
+                            thing.ref.update({ "status": newVal });
+                        }
+
+                    });
+            } else {
+                window.location.href = "./login.html";
+            }
+        });
+    }
+
+    function getData() {
+        var urlParams = new URLSearchParams(window.location.search);
+        var id = urlParams.get('id');
+        firebase.auth().onAuthStateChanged(function(user) {
+            if (user) {
+                var db = firebase.firestore();
+                var users = db.collection("users").doc(id).get().then(function(doc) {
+                    if (doc.exists) {
+                        $("#input-first-name").val(doc.data().first_name);
+                        $("#input-last-name").val(doc.data().last_name);
+                        $("#input-phone").val(doc.data().phone);
+                        $("#input-email").val(doc.data().email);
+                        $("#input-medicare").val(doc.data().medical_card)
+                        $("#input-dateofbirth").val(doc.data().dob);
+                        $("#input-sex").val(doc.data().sex);
+
+                        $("#input-address").val(doc.data().home.address);
+                        $("#input-postal-code").val(doc.data().home.postal_code);
+                        $("#input-city").val(doc.data().home.city);
+                        $("#input-country").val(doc.data().home.country);
+
+                    } else {
+                        console.log("No such document!");
+                    }
+                }).catch(function(error) {
+                    console.log("Error getting document:", error);
+                });
+
+
+                var prescriptions = db.collection("prescription").where("uid", "==", id).orderBy("date_added", "desc")
+                    .onSnapshot(function(querySnapshot) {
+                        if (!querySnapshot.empty) {
+                            $("#prescription_list").empty();
+                            querySnapshot.forEach(function(doc) {
+                                $("#prescription_list").append(
+                                    `<div class="col-4">
+                                        <div class="card card-stats">
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    <div class="col">
+                                                        <h5 class="card-title text-uppercase text-muted mb-0">`+doc.data().num_refills+` Refills</h5>
+                                                        <span class="h2 font-weight-bold mb-0">`+doc.data().medication+`</span>
+                                                    </div>
+                                                    <div class="col-auto">
+                                                        <img class="icon icon-shape rounded-circle shadow p-0" src="https://cdn.sanity.io/images/0vv8moc6/hcplive/0ebb6a8f0c2850697532805d09d4ff10e838a74b-200x200.jpg?auto=format" alt="">
+                                                        <br />
+                                                        <small class="text-small">Dr. Smith</small>
+                                                    </div>
+                                                </div>
+                                                <p class="mt-3 mb-0 text-sm">
+                                                    <span class="text-uppercase mr-2 text-primary">Directions</span>
+                                                    <br />
+                                                    <span class="mr-2"><i class="fas fa-angle-right"></i> 2 pills per day</span>
+                                                    <br />
+                                                    <span><i class="fas fa-angle-right"></i> Wait 6 hours between doses</span>
+                                                </p>
+                                                <p class="mt-3 mb-0 text-sm">
+                                                    <span class="mr-2">Prescribed: <span class="text-success">`+doc.data().date_added.toDate().toDateString().split(' ').slice(1).join(' ')+`</span></span>
+                                                    <br />
+                                                    <span>Expiration: <span class="text-danger">`+doc.data().expiry_date.toDate().toDateString().split(' ').slice(1).join(' ')+`</span></span>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>`
+                                )
+                            });
+                        }
+
+                    });
+            } else {
+                window.location.href = "./login.html";
+            }
+        });
+    }
+
+    $(document).ready(function() {
+        var max_fields = 10;
+        var wrapper = $(".container1");
+        var add_button = $("#addDirection");
+
+        var x = 1;
+        $(add_button).click(function(e) {
+            e.preventDefault();
+            if (x < max_fields) {
+                x++;
+                $(wrapper).append(`
+                <div class="col-12 ml-2">
+                    <div class="form-group">
+                        <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon1">` + x + `</span>
+                                </div>
+                                <input type="text" name="mytext[]" class="form-control" placeholder="Direction">
+                        </div>
+                    </div>
+                </div>
+                `); //add input box
+            } else {
+                alert('You Reached the limits')
+            }
+        });
+
+        $(wrapper).on("click", ".delete", function(e) {
+            e.preventDefault();
+            $(this).parent('div').remove();
+            x--;
+        })
+    });
+
+    $("#submitPrescript").submit(function(event) {
+        event.preventDefault();
+        if ($("#submitPrescript")[0].checkValidity()) {
+            var urlParams = new URLSearchParams(window.location.search);
+            var id = urlParams.get('id');
+            var directions = [];
+            jQuery("input[name='mytext[]']").each(function() {
+                if (this.value != null && this.value != "")
+                    directions.push(this.value);
+            });
+            firebase.auth().onAuthStateChanged(function(user) {
+                if (user) {
+                    firebase.firestore().collection('prescription').add({
+                        doctor_id: user.uid,
+                        prescription_details: $("#prescription_details").val(),
+                        num_refills: '0',
+                        medication: $("#medication").val(),
+                        expiry_date: new Date($("#expiration").val()),
+                        directions: directions,
+                        date_added: firebase.firestore.FieldValue.serverTimestamp(),
+                        uid: id
+                    });
+                } else {
+                    window.location.href = "./login.html";
+                }
+            });
+        }
+    });
+</script>
 
 </html>
