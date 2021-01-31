@@ -1,0 +1,12 @@
+.success{
+    position: fixed;
+    display: inline;
+    top: 1vh;
+    right: 1vw;
+}
+
+.delete{
+    bottom: 0;
+    position: absolute;
+    cursor: pointer;
+}
