@@ -33,7 +33,7 @@ function init() {
                     $("#userName").text(doc.data().first_name + " " + doc.data().last_name);
                     $("#userIcon").attr('src', doc.data().icon);
                     $("#userIcon").attr('hidden', false);
-
+                    localStorage.setItem('userType', doc.data().type);
                   }
                 } else {
                     console.log("No such document!");
